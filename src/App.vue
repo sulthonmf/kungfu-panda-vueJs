@@ -15,9 +15,9 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import MovieList from "./components/Moleculs/MovieList/MovieList.vue";
 import MovieDetails from "./components/Moleculs/MovieDetail/MovieDetail.vue";
-import MovieData from "../movie.json";
 import Header from "./components/Organisms/Header/Header.vue";
 
 export default {
@@ -26,15 +26,19 @@ export default {
     MovieDetails,
     Header,
   },
-  data() {
-    return {
-      movies: MovieData,
-      selectedMovie: MovieData[0],
-    };
+  computed: {
+    ...mapGetters(['getSelectedMovie', 'getMovies']),
+    selectedMovie() {
+      return this.getSelectedMovie;
+    },
+    movies() {
+      return this.getMovies;
+    }
   },
   methods: {
+    ...mapActions(['setSelectedMovie']),
     updateSelectedMovie(movie) {
-      this.selectedMovie = movie;
+      this.setSelectedMovie(movie);
     },
   },
 };
